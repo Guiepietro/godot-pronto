@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://11nh76m3rtby"]
+
+[ext_resource type="Script" path="res://script/inimigo.gd" id="1_qggiy"]
+[ext_resource type="Texture2D" uid="uid://2552w3pia8eb" path="res://assets/victor_left.png" id="2_h60e7"]
+[ext_resource type="Texture2D" uid="uid://cc5o5uplmc8p8" path="res://assets/gui_rigth.png" id="3_migfw"]
+[ext_resource type="Texture2D" uid="uid://dya8vix5eelnl" path="res://assets/victor_rigth.png" id="3_u0nl2"]
+[ext_resource type="Texture2D" uid="uid://1d65cfajvyed" path="res://assets/gui_left.png" id="4_1364v"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k3it2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_1364v")
+}],
+"loop": true,
+"name": &"gui_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_migfw")
+}],
+"loop": true,
+"name": &"gui_rigth",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_h60e7")
+}],
+"loop": true,
+"name": &"victor_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_u0nl2")
+}],
+"loop": true,
+"name": &"victor_rigth",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foik8"]
+radius = 32.0156
+
+[node name="inimigo" type="RigidBody2D" groups=["bugs"]]
+collision_layer = 2
+gravity_scale = 0.0
+script = ExtResource("1_qggiy")
+
+[node name="anim" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.00001, 2.38419e-06)
+scale = Vector2(0.0947917, 0.0814815)
+sprite_frames = SubResource("SpriteFrames_k3it2")
+animation = &"victor_left"
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -10)
+shape = SubResource("CircleShape2D_foik8")
+
+[node name="visible" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(4, 0)
+
+[connection signal="screen_exited" from="visible" to="." method="_on_visible_screen_exited"]

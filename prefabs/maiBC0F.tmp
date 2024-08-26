@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy2by8cv3qsmv"]
+
+[ext_resource type="Script" path="res://assets/main.gd" id="1_ydm55"]
+[ext_resource type="PackedScene" uid="uid://c1aubvdup7mk6" path="res://prefabs/player.tscn" id="2_og28e"]
+[ext_resource type="PackedScene" uid="uid://11nh76m3rtby" path="res://prefabs/inimigo.tscn" id="3_g8l1w"]
+
+[sub_resource type="Curve2D" id="Curve2D_x418n"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -138.385, -133, 0, 0, 0, 0, 489.051, -130.822, 0, 0, 0, 0, 485.128, 312.315, 0, 0, 0, 0, 490.582, 529.403, 0, 0, 0, 0, -141, 528.482, 0, 0, 0, 0, -141, -133)
+}
+point_count = 6
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_ydm55")
+bug_scene = ExtResource("3_g8l1w")
+
+[node name="player" parent="." instance=ExtResource("2_og28e")]
+position = Vector2(245, 358)
+scale = Vector2(0.5, 0.5)
+
+[node name="bugtimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="scoretimer" type="Timer" parent="."]
+
+[node name="starttimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="startposition" type="Marker2D" parent="."]
+position = Vector2(246, 359)
+
+[node name="bugpath" type="Path2D" parent="."]
+position = Vector2(110, 140)
+scale = Vector2(0.764747, 1.08544)
+curve = SubResource("Curve2D_x418n")
+
+[node name="bugpathlocation" type="PathFollow2D" parent="bugpath"]
+position = Vector2(-138.385, -133)
+rotation = 0.00347084
+
+[connection signal="hit" from="player" to="." method="game_over"]
+[connection signal="timeout" from="bugtimer" to="." method="_on_bugtimer_timeout"]
+[connection signal="timeout" from="scoretimer" to="." method="_on_scoretimer_timeout"]
+[connection signal="timeout" from="starttimer" to="." method="_on_starttimer_timeout"]
